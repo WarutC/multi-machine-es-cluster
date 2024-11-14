@@ -95,3 +95,23 @@ curl -X GET "localhost:9200/_cluster/health?pretty"
 # List nodes in the cluster
 curl -X GET "localhost:9200/_cat/nodes?v"
 ```
+## Run kibana
+Create a .env file for Kibana (optional, for when you enable security):
+```bash
+ELASTIC_USERNAME=elastic
+ELASTIC_PASSWORD=your_secure_password
+```
+
+1. Start Kibana:
+```bash
+docker-compose -f docker-compose.kibana.yml up -d
+```
+
+2. Monitor Logs:
+```bash
+docker-compose -f docker-compose.kibana.yml logs -f
+```
+3. Verify Installation:
+- Open browser to http://your_kibana_server:5601
+- Check connection status to Elasticsearch nodes
+  
