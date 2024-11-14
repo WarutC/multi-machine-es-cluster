@@ -1,0 +1,29 @@
+# docker-compose.yml - Use this on all three nodes
+services:
+  elasticsearch:
+    image: elasticsearch:8.15.0
+    network_mode: "host"
+    container_name: elasticsearch
+    environment:
+      - node.name=${NODE_NAME}
+      - cluster.name=elk-cluster
+      - discovery.seed_hosts=${SEED_HOSTS}
+      - cluster.initial_master_nodes=${INITIAL_MASTER_NODES}
+      - bootstrap.memory_lock=true
+      - xpack.security.enabled=false
+      - xpack.security.enrollment.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - network.host=${NODE_IP}
+      - network.publish_host=${NODE_IP}
+      - transport.port=9300
+      - http.port=9200
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 65536
+        hard: 65536
+    volumes:
+      - ./data:/usr/share/elasticsearch/data
+    restart: unless-stopped
