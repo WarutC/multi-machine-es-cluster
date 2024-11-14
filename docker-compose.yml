@@ -1,22 +1,24 @@
 # docker-compose.yml - Use this on all three nodes
 services:
   elasticsearch:
-    image: elasticsearch:8.15.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
     network_mode: "host"
     container_name: elasticsearch
     environment:
       - node.name=${NODE_NAME}
-      - cluster.name=elk-cluster
+      - cluster.name=${CLUSTER_NAME}
       - discovery.seed_hosts=${SEED_HOSTS}
       - cluster.initial_master_nodes=${INITIAL_MASTER_NODES}
       - bootstrap.memory_lock=true
       - xpack.security.enabled=false
       - xpack.security.enrollment.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - network.host=${NODE_IP}
       - network.publish_host=${NODE_IP}
       - transport.port=9300
-      - http.port=9200
+      - http.port=${ES_PORT}
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+    mem_limit: ${MEM_LIMIT}
     ulimits:
       memlock:
         soft: -1
