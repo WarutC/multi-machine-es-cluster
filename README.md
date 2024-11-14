@@ -11,8 +11,6 @@ NODE_NAME=es01
 NODE_IP=192.168.1.26
 SEED_HOSTS=192.168.1.26,192.168.1.27,192.168.1.28
 INITIAL_MASTER_NODES=es01,es02,es03
-# Increase or decrease based on the available host memory (in bytes)
-MEM_LIMIT=1073741824
 ```
 2. For Node 2 (192.168.1.27) - Second Machine
 
