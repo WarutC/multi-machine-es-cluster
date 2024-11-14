@@ -1,0 +1,25 @@
+services:
+  kibana:
+    image: kibana:8.15.0
+    network_mode: "host"  # Using host network for better cluster communication
+    container_name: kibana
+    environment:
+      - ELASTICSEARCH_HOSTS=["http://192.168.1.26:9200","http://192.168.1.27:9200","http://192.168.1.28:9200"]
+      - SERVER_HOST=0.0.0.0
+      - SERVER_PORT=5601
+      - ELASTICSEARCH_USERNAME=${ELASTIC_USERNAME:-}  # If you enable security later
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD:-}  # If you enable security later
+      - XPACK_SECURITY_ENABLED=false  # Match your ES cluster setting
+      - MONITORING_UI_CONTAINER_ELASTICSEARCH_ENABLED=true
+    volumes:
+      - kibanadata:/usr/share/kibana/data
+    #restart: unless-stopped
+    # Optional: healthcheck for monitoring
+    healthcheck:
+      test: ["CMD-SHELL", "curl -s -I http://localhost:5601 | grep -q 'HTTP/1.1 302 Found'"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+volumes:
+  kibanadata:
+    driver: local
