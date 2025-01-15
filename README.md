@@ -80,8 +80,8 @@ done
 4. Start the cluster:
 ```bash
 # On each machine:
-docker-compose down  # If already running
-docker-compose up -d
+docker compose down  # If already running
+docker compose up -d
 ```
 
 5. Monitor the cluster formation:
